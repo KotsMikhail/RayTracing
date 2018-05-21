@@ -9,6 +9,8 @@
 
 #include "camera.h"
 #include "bitmap.h"
+#include "plane.h"
+#include "triangle.h"
 #include "sphere.h"
 #include "cylinder.h"
 #include "color.h"

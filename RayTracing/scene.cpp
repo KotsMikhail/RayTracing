@@ -5,7 +5,7 @@ namespace RayTracing
 
     void Scene::load(const std::string& path, ColorType ctype, const boost::any& param)
     {
-        YAML::Node config = YAML::LoadFile("D:\\SPBPU\\4_grade\\Graphics\\RayTracing\\RayTracing\\scene_axes.yml");
+        YAML::Node config = YAML::LoadFile(path);
         m_camera.load(config);
 
         YAML::Node scene = config["scene"];
@@ -55,6 +55,10 @@ namespace RayTracing
             object = new Sphere();
         else if (node["cylinder"])
             object = new Cylinder();
+        else if (node["plane"])
+            object = new Plane();
+        else if (node["triangle"])
+            object = new Triangle();
         else
             throw std::runtime_error("Unknown object");
 

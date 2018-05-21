@@ -21,8 +21,8 @@ int main(int argc, const char *argv[])
         ("distance_as_color", "Output distance as color")
         ("dist_range", bo::value<double>()->default_value(30.0), "Maximum distance for distance as color");
 
-    try
-    {
+    /*try
+    {*/
         bo::variables_map vm;
         bo::parsed_options parsed = bo::command_line_parser(argc, argv).options(desc).run();
         bo::store(parsed, vm);
@@ -47,11 +47,11 @@ int main(int argc, const char *argv[])
             RayTracing::Bitmap image = scene.render(vm["resolution_x"].as<int>(), vm["resolution_y"].as<int>());
             image.save(vm["output"].as<std::string>());
         }            
-    }
+    /*}
     catch (const std::exception& e)
     {
         std::cout << e.what() << std::endl;
-    }
+    }*/
 
     return 0;
 }

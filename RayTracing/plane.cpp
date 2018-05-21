@@ -7,30 +7,37 @@ namespace  RayTracing
     {
         Node::load(node);
         YAML::Node plane = node["plane"];
-        m_position =
-        {
-            plane["position"]["x"].as<double>(),
-            plane["position"]["y"].as<double>(),
-            plane["position"]["z"].as<double>()
-        };
-        m_normal =
-        {
-            plane["normal"]["x"].as<double>(),
-            plane["normal"]["y"].as<double>(),
-            plane["normal"]["z"].as<double>()
-        };
+        if (plane["position"])
+            m_position =
+            {
+                plane["position"]["x"].as<double>(),
+                plane["position"]["y"].as<double>(),
+                plane["position"]["z"].as<double>()
+            };
+        else
+            m_position = { 0.0, 0.0, 0.0 };
+        if (plane["normal"])
+            m_normal =
+            {
+                plane["normal"]["x"].as<double>(),
+                plane["normal"]["y"].as<double>(),
+                plane["normal"]["z"].as<double>()
+            };
+        else
+            m_normal = { 0.0, 0.0, 1.0 };
+        m_position = m_position.transform(m_world, 1.0);
+        m_normal = m_normal.transform(m_world, 0.0);
     }
 
     std::vector<Point> Plane::rayIntersetion(const Ray & ray) const
     {
         std::vector<Point> intersections;
-        Ray tfRay = ray.transform(inverse(m_world));
 
-        float nDotD = m_normal * tfRay.direction();
+        float nDotD = m_normal * ray.direction();
         if (nDotD < 0.0)
         {
-            double t = (m_position* m_normal - tfRay.start() * m_normal) / nDotD;
-            intersections.push_back(tfRay.eval(t).transform(m_world, 1.0));
+            double t = (m_position* m_normal - ray.start() * m_normal) / nDotD;
+            intersections.push_back(ray.eval(t));
         }
 
         return intersections;

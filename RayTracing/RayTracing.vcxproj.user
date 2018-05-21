@@ -8,7 +8,7 @@
     </LocalDebuggerEnvironment>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <LocalDebuggerCommandArguments>--scene=scene_axes.yml --output=result.bmp --normal_as_color</LocalDebuggerCommandArguments>
+    <LocalDebuggerCommandArguments>--scene=scene_test.yml --output=result.bmp --normal_as_color</LocalDebuggerCommandArguments>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
   </PropertyGroup>
 </Project>
