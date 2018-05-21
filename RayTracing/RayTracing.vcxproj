@@ -75,9 +75,9 @@
     <LibraryPath>D:\SPBPU\4_grade\Graphics\RayTracing\yaml\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <ExecutablePath>..\build\x64\vc14\bin;$(ExecutablePath)</ExecutablePath>
+    <ExecutablePath>..\opencv\build\x64\vc14\bin;$(ExecutablePath)</ExecutablePath>
     <IncludePath>..\yaml\include;..\boost_1_67_0;..\opencv\build\include;$(IncludePath)</IncludePath>
-    <LibraryPath>..\yaml\lib;..\boost_1_67_0\stage\lib;..\opencv\build\x64\vc15\lib;$(LibraryPath)</LibraryPath>
+    <LibraryPath>..\yaml\lib;..\boost_1_67_0\stage\lib;..\opencv\build\x64\vc14\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ExecutablePath>..\opencv\build\x64\vc14\bin;$(ExecutablePath)</ExecutablePath>
@@ -106,6 +106,9 @@
     <Link>
       <AdditionalDependencies>opencv_world341d.lib;libyaml-cppmdd.lib;libboost_program_options-vc140-mt-gd-x64-1_67.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>copy ..\opencv\build\x64\vc14\bin\opencv_world341d.dll x64\Debug\opencv_world341d.dll</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -133,6 +136,9 @@
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalDependencies>opencv_world341.lib;libyaml-cppmd.lib;libboost_program_options-vc140-mt-x64-1_67.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>copy ..\opencv\build\x64\vc14\bin\opencv_world341.dll x64\Release\opencv_world341.dll</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="bitmap.h" />
