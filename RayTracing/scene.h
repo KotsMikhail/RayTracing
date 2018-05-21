@@ -14,6 +14,7 @@
 #include "sphere.h"
 #include "cylinder.h"
 #include "color.h"
+#include "light.h"
 
 namespace RayTracing
 {
@@ -32,6 +33,7 @@ namespace RayTracing
         Node* getObject(const YAML::Node& node, ColorType ctype, const boost::any& param = nullptr) const;
 
         std::vector<Node*> m_objects;
+        std::vector<Light*> m_lights;
         Camera m_camera;
 
     };

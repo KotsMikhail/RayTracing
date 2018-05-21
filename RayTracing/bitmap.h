@@ -16,7 +16,7 @@ namespace RayTracing
 
         void set(int x, int y, const Point& color)
         {
-            m_image.at<cv::Vec3b>(y, x) = cv::Vec3b(color.z, color.y, color.x);
+            m_image.at<cv::Vec3b>(y, x) = cv::Vec3b(color.z * 255.0, color.y * 255.0, color.x * 255.0);
         }
 
         void save(const std::string& path)

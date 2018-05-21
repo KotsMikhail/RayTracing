@@ -33,7 +33,7 @@ namespace RayTracing
         {
             Point color = m_object->normal(point);
             color = { abs(color.x), abs(color.y), abs(color.z) };
-            return color * 255.0;
+            return color;
         }
 
     private:
@@ -53,7 +53,7 @@ namespace RayTracing
             if (dist > 1.0)
                 dist = 1.0;
             Point color = { dist, dist, dist };
-            return color * 255.0;
+            return color;
         }
 
     private:
@@ -81,7 +81,7 @@ namespace RayTracing
 
         virtual Point getColor(const Point& point) const
         {
-            return m_color * 255.0;
+            return m_color;
         }
 
     private:

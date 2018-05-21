@@ -25,6 +25,14 @@ namespace RayTracing
             lcs["sz"].as<double>()
         });
         m_world = t * r * s;
+        
+        YAML::Node material = node["material"];
+        m_KDiffuse = 0.3;
+        if (material["diffuse"])
+            m_KDiffuse = material["diffuse"].as<double>();
+        m_KSpecular = 0.5;
+        if (material["specular"])
+            m_KSpecular = material["specular"].as<double>();
     }
 
 }

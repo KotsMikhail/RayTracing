@@ -71,7 +71,7 @@ namespace RayTracing
         {
             norm = { p.x, p.y, 0.0 };
         }
-        norm = norm.transform(bq::inverse(m_world), 0.0);
+        norm = norm.transform(bq::transposed(bq::inverse(m_world)), 0.0);
         return norm;
     }
 

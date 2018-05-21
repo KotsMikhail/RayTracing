@@ -11,10 +11,19 @@ namespace RayTracing
         YAML::Node scene = config["scene"];
         for (auto i = scene.begin(); i != scene.end(); i++)
         {
-            YAML::Node node = (*i)["node"];
-            bool asdf = node["lcs"];
-            Node* object = getObject(node, ctype, param);
-            m_objects.push_back(object);
+            YAML::Node node = (*i);
+            if (node["node"])
+            {
+                Node* object = getObject(node["node"], ctype, param);
+                m_objects.push_back(object);
+            }
+            else if (node["light"])
+            {
+                Light* light = new Light(node["light"], m_camera.position());
+                m_lights.push_back(light);
+            }
+            else
+                throw std::runtime_error("Unknown node type");
         }
     }
 
@@ -42,6 +51,11 @@ namespace RayTracing
                 {
                     point = *newPoint;
                     color = (*obj)->color()->getColor(point);
+                    Point illumitation = { 0.0, 0.0, 0.0 };
+                    for (auto light = m_lights.begin(); light != m_lights.end(); light++)
+                        illumitation = illumitation + (*light)->getIllumination(point, (*obj)->normal(point), **obj);
+                    illumitation.clamp(0.0, 1.0);
+                    color = { color.x * illumitation.x, color.y * illumitation.y, color.z * illumitation.z };
                 }
         }
         return color;
@@ -60,7 +74,7 @@ namespace RayTracing
         else if (node["triangle"])
             object = new Triangle();
         else
-            throw std::runtime_error("Unknown object");
+            throw std::runtime_error("Unknown graphical primitive");
 
         object->load(node);
         

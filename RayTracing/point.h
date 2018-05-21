@@ -7,6 +7,7 @@
 #include <boost/qvm/vec_operations.hpp>
 #include <boost/qvm/mat.hpp>
 #include <boost/qvm/vec_mat_operations.hpp>
+#include <boost/qvm/map_mat_mat.hpp>
 
 namespace RayTracing
 {
@@ -19,26 +20,31 @@ namespace RayTracing
 
     struct Point
     {
-        double x, y, z, w;
+        double x, y, z;
 
         Point operator+(const Point& other) const
         {
-            return{ x + other.x, y + other.y, z + other.z, w };
+            return{ x + other.x, y + other.y, z + other.z };
         };
 
         Point operator-(const Point& other) const
         {
-            return{ x - other.x, y - other.y, z - other.z, w };
+            return{ x - other.x, y - other.y, z - other.z };
+        };
+
+        Point operator-() const
+        {
+            return{ -x, -y, -z };
         };
 
         Point operator*(double value) const
         {
-            return{ x * value, y * value, z * value, w };
+            return{ x * value, y * value, z * value };
         };
 
         Point operator/(double value) const
         {
-            return{ x / value, y / value, z / value, w };
+            return{ x / value, y / value, z / value };
         };
 
         double operator*(const Point& value) const
@@ -56,6 +62,13 @@ namespace RayTracing
             else
                 bq::normalize(v);
             return{ bq::A<0>(v), bq::A<1>(v),bq::A<2>(v) };
+        }
+
+        void clamp(double min, double max)
+        {
+            x = std::min(std::max(x, 0.0), 1.0);
+            y = std::min(std::max(y, 0.0), 1.0);
+            z = std::min(std::max(z, 0.0), 1.0);
         }
 
     };
