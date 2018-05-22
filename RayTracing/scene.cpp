@@ -70,7 +70,7 @@ namespace RayTracing
         {
             color = object->color()->getColor(point);
             Point illumitation = { 0.0, 0.0, 0.0 };
-            Point pointBiased = point + object->normal(point) * 1e-5;
+            Point pointBiased = point + object->normal(point) * BIAS;
             Point normal = object->normal(point);
             for (auto light = m_lights.begin(); light != m_lights.end(); light++)
             {
@@ -81,12 +81,35 @@ namespace RayTracing
             illumitation.clamp(0.0, 1.0);
             color = { color.x * illumitation.x, color.y * illumitation.y, color.z * illumitation.z };
 
-            if (object->reflection() && traceDepth)
+            if (object->refraction() && traceDepth)
+            {
+                Point reflectedColor, refractedColor;
+                double fk = ray.fresnelCoeff(normal, object->refraction());
+                if (fk < 1.0)
+                {
+                    Ray* refractedRay = ray.refract(point, normal, object->refraction());
+                    if (refractedRay)
+                    {
+                        Point refractionPoint;
+                        Node* newObject = getRayIntersection(*refractedRay, refractionPoint);
+                        refractedColor = getIntersectionColor(newObject, *refractedRay, refractionPoint, traceDepth - 1);
+                    }
+                }
+                else
+                    refractedColor = { 0.0, 0.0, 0.0 };
+                Ray reflectedRay = ray.reflect(point, normal);
+                Point reflectionPoint;
+                Node* newObject = getRayIntersection(reflectedRay, reflectionPoint);
+                reflectedColor = getIntersectionColor(newObject, reflectedRay, reflectionPoint, traceDepth - 1);
+                color = color * 0.4 + (reflectedColor * fk + refractedColor * (1 - fk)) * 0.6;
+            }
+            else if (object->reflection() && traceDepth)
             {
                 Ray reflectedRay = ray.reflect(pointBiased, normal);
-                Point newPoint;
-                Node* newObject = getRayIntersection(reflectedRay, newPoint);
-                color = color * (1 - object->reflection()) + getIntersectionColor(newObject, reflectedRay, newPoint, traceDepth - 1) * object->reflection();
+                Point reflectionPoint;
+                Node* newObject = getRayIntersection(reflectedRay, reflectionPoint);
+                Point reflectedColor = getIntersectionColor(newObject, reflectedRay, reflectionPoint, traceDepth - 1);
+                color = color * (1 - object->reflection()) + reflectedColor * object->reflection();
             }
         }
 
@@ -105,6 +128,8 @@ namespace RayTracing
             object = new Plane();
         else if (node["triangle"])
             object = new Triangle();
+        else if (node["cone"])
+            object = new Cone();
         else
             throw std::runtime_error("Unknown graphical primitive");
 

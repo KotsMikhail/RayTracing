@@ -143,6 +143,7 @@
   <ItemGroup>
     <ClInclude Include="bitmap.h" />
     <ClInclude Include="camera.h" />
+    <ClInclude Include="cone.h" />
     <ClInclude Include="cylinder.h" />
     <ClInclude Include="color.h" />
     <ClInclude Include="light.h" />
@@ -158,6 +159,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="camera.cpp" />
+    <ClCompile Include="cone.cpp" />
     <ClCompile Include="cylinder.cpp" />
     <ClCompile Include="light.cpp" />
     <ClCompile Include="main.cpp" />

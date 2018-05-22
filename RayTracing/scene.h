@@ -13,6 +13,7 @@
 #include "triangle.h"
 #include "sphere.h"
 #include "cylinder.h"
+#include "cone.h"
 #include "color.h"
 #include "light.h"
 

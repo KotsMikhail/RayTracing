@@ -16,7 +16,7 @@ int main(int argc, const char *argv[])
         ("resolution_x,x", bo::value<int>()->default_value(1024), "Image resolution against X axis")
         ("resolution_y,y", bo::value<int>()->default_value(1024), "Image resolution against Y axis")
         ("output,o", bo::value<std::string>(), "Output rendered image")
-        ("trace_depth,d", bo::value<int>()->default_value(2), "Trace depth")
+        ("trace_depth,d", bo::value<int>()->default_value(3), "Trace depth")
         ("normal_as_color", "Output normal as color")
         ("distance_as_color", "Output distance as color")
         ("dist_range", bo::value<double>()->default_value(30.0), "Maximum distance for distance as color");

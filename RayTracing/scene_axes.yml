@@ -18,8 +18,8 @@ scene:
       material:
          color: {r: 1, g: 0, b: 0}
    - node:
-      lcs : {x: 0, y: 0, z: 6, h: 0, p: 0, r: 0, sx: 1, sy: 1, sz: 1}
-      sphere: {r: 1}
+      lcs : {x: 0, y: 0, z: 8, h: 0, p: 0, r: 0, sx: 1, sy: 1, sz: 1}
+      cone: {r: 1, h: 2}
       material:
          color: {r: 1, g: 1, b: 1}
    - node: # y-axis
@@ -28,8 +28,8 @@ scene:
       material:
          color: {r: 0, g: 1, b: 0}
    - node:
-      lcs : {x: 0, y: 6, z: 0, h: 0, p: 0, r: 0, sx: 1, sy: 1, sz: 1}
-      sphere: {r: 1}
+      lcs : {x: 0, y: 8, z: 0, h: 0, p: -90, r: 0, sx: 1, sy: 1, sz: 1}
+      cone: {r: 1, h: 2}
       material:
          color: {r: 1, g: 1, b: 1}
    - node: # x-axis
@@ -38,26 +38,29 @@ scene:
       material:
          color: {r: 0, g: 0, b: 1}
    - node:
-      lcs : {x: 6, y: 0, z: 0, h: 0, p: 0, r: 0, sx: 1, sy: 1, sz: 1}
-      sphere: {r: 1}
+      lcs : {x: 8, y: 0, z: 0, h: 90, p: 90, r: 0, sx: 1, sy: 1, sz: 1}
+      cone: {r: 1, h: 2}
       material:
          color: {r: 1, g: 1, b: 1}
    - node:
       lcs : {x: 0, y: 0, z: -2, h: 0, p: 0, r: 0, sx: 1, sy: 1, sz: 1}
       plane: {}
       material:
-         color: {r: 0.6, g: 0.0, b: 0.8}
-         reflection: 0.5
-   #- node:
-   #   lcs : {x: -5, y: 5, z: 0, h: 45, p: 0, r: 0, sx: 30, sy: 30, sz: 15}
-   #   triangle:
-   #      a: {x: -1.0, y: 0.0, z: -1.0}
-   #      b: {x: 1.0, y: 0.0, z: -1.0}
-   #      c: {x: 0.0, y: 0.0, z: 1.0}
-   #   material:
-   #      color: {r: 1.0, g: 0.0, b: 1.0}
+         color: {r: 0.8, g: 0.35, b: 0.1}
+         #reflection: 0.5
+   - node:
+      lcs : {x: 0, y: 0, z: 3, h: 0, p: 0, r: 0, sx: 1, sy: 1, sz: 1}
+      plane: {}
+      material:
+         color: {r: 0.2, g: 0.4, b: 0.8}
+         refraction: 2.5
    - light:
-      position: {x: 5, y: 5, z: 10}
+      position: {x: 10, y: 10, z: 10}
       color: {r: 1.0, g: 1.0, b: 1.0}
-      ambient: 1.0
+      ambient: 0.5
+      shine: 7.0
+   - light:
+      position: {x: 10, y: -10, z: 10}
+      color: {r: 1.0, g: 1.0, b: 1.0}
+      ambient: 0.5
       shine: 7.0

@@ -39,6 +39,9 @@ namespace RayTracing
         m_reflection = 0.0;
         if (material["reflection"])
             m_reflection = material["reflection"].as<double>();
+        m_refraction = 0.0;
+        if (material["refraction"])
+            m_refraction = material["refraction"].as<double>();
     }
 
 }

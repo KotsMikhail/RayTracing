@@ -55,16 +55,12 @@ namespace RayTracing
         Point norm;
         Point p = point.transform(inverse(m_world), 1.0);
         if (p.x * p.x + p.y * p.y < m_radius * m_radius - 1e-5)
-        {
             if (p.z > 0)
                 norm = { 0.0, 0.0, 1.0 };
             else
                 norm = { 0.0, 0.0, -1.0 };
-        }
         else
-        {
             norm = { p.x, p.y, 0.0 };
-        }
         norm = norm.transform(bq::transposed(bq::inverse(m_world)), 0.0);
         return norm;
     }

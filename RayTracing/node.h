@@ -20,11 +20,12 @@ namespace RayTracing
         double kDiffuse() const { return m_kDiffuse; }
         double kSpecular() const { return m_kSpecular; }
         double reflection() const { return m_reflection; }
+        double refraction() const { return m_refraction; }
 
     protected:
         Matrix m_world;
         Color* m_color;
-        double m_kAmbient, m_kDiffuse, m_kSpecular, m_reflection;
+        double m_kAmbient, m_kDiffuse, m_kSpecular, m_reflection, m_refraction;
 
     };
 
