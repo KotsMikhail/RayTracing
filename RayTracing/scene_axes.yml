@@ -1,4 +1,4 @@
-# Камера
+﻿# Камера
 camera:
    position: {x: 10, y: -10, z: 10}
    orientation: {h: 45, p: -30, r: 0}
@@ -42,3 +42,22 @@ scene:
       sphere: {r: 1}
       material:
          color: {r: 1, g: 1, b: 1}
+   - node:
+      lcs : {x: 0, y: 0, z: -2, h: 0, p: 0, r: 0, sx: 1, sy: 1, sz: 1}
+      plane: {}
+      material:
+         color: {r: 0.6, g: 0.0, b: 0.8}
+         reflection: 0.5
+   #- node:
+   #   lcs : {x: -5, y: 5, z: 0, h: 45, p: 0, r: 0, sx: 30, sy: 30, sz: 15}
+   #   triangle:
+   #      a: {x: -1.0, y: 0.0, z: -1.0}
+   #      b: {x: 1.0, y: 0.0, z: -1.0}
+   #      c: {x: 0.0, y: 0.0, z: 1.0}
+   #   material:
+   #      color: {r: 1.0, g: 0.0, b: 1.0}
+   - light:
+      position: {x: 5, y: 5, z: 10}
+      color: {r: 1.0, g: 1.0, b: 1.0}
+      ambient: 1.0
+      shine: 7.0

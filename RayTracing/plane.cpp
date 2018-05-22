@@ -37,7 +37,8 @@ namespace  RayTracing
         if (nDotD < 0.0)
         {
             double t = (m_position* m_normal - ray.start() * m_normal) / nDotD;
-            intersections.push_back(ray.eval(t));
+            if(t > 0)
+                intersections.push_back(ray.eval(t));
         }
 
         return intersections;

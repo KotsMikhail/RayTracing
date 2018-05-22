@@ -31,8 +31,11 @@ namespace RayTracing
         return Ray(point, direction);
     }
 
-    Point Light::getIllumination(const Point& point, const Point& normal, const Node& object) const
+    Point Light::getIllumination(const Point& point, const Point& normal, const Node& object, bool shaded) const
     {
+        if (shaded)
+            return m_color * object.kAmbient() * m_ambient;
+
         Point l = m_position - point;
         bg::detail::vec_normalize<Point>(l);
         Point h = m_camera - point;
@@ -41,11 +44,9 @@ namespace RayTracing
         bg::detail::vec_normalize<Point>(r);
 
         double diff = object.kDiffuse() * (normal * l);
-        //diff = std::min(std::max(diff, 0.0), 1.0);
         double spec = object.kSpecular() * pow(std::max(r * h, 0.0), m_shine);
-        //spec = std::min(std::max(diff, 0.0), 1.0);
 
-        return m_color * (m_ambient + diff + spec);
+        return m_color * (object.kAmbient() * m_ambient + diff + spec);
     }
 
 }

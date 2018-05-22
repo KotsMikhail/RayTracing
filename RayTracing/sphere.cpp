@@ -21,14 +21,12 @@ namespace RayTracing
 
         if (d >= 0)
         {
-            double x1 = (-b + sqrt(d)) / (2.0 * a);
-            double x2 = (-b - sqrt(d)) / (2.0 * a);
-            Point p1 = tfRay.eval(x1);
-            Point p2 = tfRay.eval(x2);
-            p1 = p1.transform(m_world, 1.0);
-            p2 = p2.transform(m_world, 1.0);
-            intersections.push_back(p1);
-            intersections.push_back(p2);
+            double t1 = (-b + sqrt(d)) / (2.0 * a);
+            double t2 = (-b - sqrt(d)) / (2.0 * a);
+            if (t1 > 0)
+                intersections.push_back(tfRay.eval(t1).transform(m_world, 1.0));
+            if (t2 > 0)
+                intersections.push_back(tfRay.eval(t2).transform(m_world, 1.0));
         }
 
         return intersections;

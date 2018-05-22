@@ -22,19 +22,19 @@ namespace RayTracing
 
         if (d >= 0)
         {
-            double x1 = (-b + sqrt(d)) / (2.0 * a);
-            double x2 = (-b - sqrt(d)) / (2.0 * a);
-            Point p1 = tfRay.eval(x1);
-            Point p2 = tfRay.eval(x2);
-            if (p1.z >= -m_height / 2 && p1.z <= m_height / 2)
+            double t1 = (-b + sqrt(d)) / (2.0 * a);
+            double t2 = (-b - sqrt(d)) / (2.0 * a);
+            if (t1 > 0)
             {
-                p1 = p1.transform(m_world, 1.0);
-                intersections.push_back(p1);
+                Point p = tfRay.eval(t1);
+                if (p.z >= -m_height / 2 && p.z <= m_height / 2)
+                    intersections.push_back(p.transform(m_world, 1.0));
             }
-            if (p2.z >= -m_height / 2 && p2.z <= m_height / 2)
+            if (t2 > 0)
             {
-                p2 = p2.transform(m_world, 1.0);
-                intersections.push_back(p2);
+                Point p = tfRay.eval(t2);
+                if (p.z >= -m_height / 2 && p.z <= m_height / 2)
+                    intersections.push_back(p.transform(m_world, 1.0));
             }
         }
 
@@ -42,16 +42,10 @@ namespace RayTracing
         Plane p2({ 0.0, 0.0, -m_height / 2 }, { 0.0, 0.0, -1.0 });
         std::vector<Point> tmp = p1.rayIntersetion(tfRay);
         if (tmp.size() > 0 && tmp[0].x * tmp[0].x + tmp[0].y * tmp[0].y < m_radius * m_radius)
-        {
-            tmp[0] = tmp[0].transform(m_world, 1.0);
-            intersections.push_back(tmp[0]);
-        }
+            intersections.push_back(tmp[0].transform(m_world, 1.0));
         tmp = p2.rayIntersetion(tfRay);
         if (tmp.size() > 0 && tmp[0].x * tmp[0].x + tmp[0].y * tmp[0].y < m_radius * m_radius)
-        {
-            tmp[0] = tmp[0].transform(m_world, 1.0);
-            intersections.push_back(tmp[0]);
-        }
+            intersections.push_back(tmp[0].transform(m_world, 1.0));
 
         return intersections;
     }

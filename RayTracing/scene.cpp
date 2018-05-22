@@ -27,22 +27,27 @@ namespace RayTracing
         }
     }
 
-    Bitmap Scene::render(int resolutionX, int resolutionY) const
+    Bitmap Scene::render(int resolutionX, int resolutionY, int traceDepth) const
     {
         Bitmap result(resolutionX, resolutionY);
+
+        Point point;
         for (int x = 0; x < resolutionX; x++)
             for (int y = 0; y < resolutionY; y++)
             {
                 Ray ray = m_camera.getCameraRay((double)x / resolutionX, (double)y / resolutionY);
-                result.set(x, y, getRayIntersection(ray));
+                Node* object = getRayIntersection(ray, point);
+                result.set(x, y, getIntersectionColor(object, ray, point, traceDepth));
             }
+
         return result;
     }
 
-    Point RayTracing::Scene::getRayIntersection(const Ray& ray) const
+    Node* RayTracing::Scene::getRayIntersection(const Ray& ray, Point& point) const
     {
-        Point color = BACKGROUND;
-        Point point = { std::numeric_limits<double>::max(), std::numeric_limits<double>::max(), std::numeric_limits<double>::max() };
+        Node* object = nullptr;
+        point = { std::numeric_limits<double>::max(), std::numeric_limits<double>::max(), std::numeric_limits<double>::max() };
+
         for (auto obj = m_objects.begin(); obj != m_objects.end(); obj++)
         {
             std::vector<Point> intersections = (*obj)->rayIntersetion(ray);
@@ -50,14 +55,41 @@ namespace RayTracing
                 if (m_camera.checkVisibility(point, *newPoint))
                 {
                     point = *newPoint;
-                    color = (*obj)->color()->getColor(point);
-                    Point illumitation = { 0.0, 0.0, 0.0 };
-                    for (auto light = m_lights.begin(); light != m_lights.end(); light++)
-                        illumitation = illumitation + (*light)->getIllumination(point, (*obj)->normal(point), **obj);
-                    illumitation.clamp(0.0, 1.0);
-                    color = { color.x * illumitation.x, color.y * illumitation.y, color.z * illumitation.z };
+                    object = *obj;
                 }
         }
+
+        return object;
+    }
+
+    Point RayTracing::Scene::getIntersectionColor(const Node* object, const Ray& ray, const Point& point, int traceDepth) const
+    {
+        Point color = BACKGROUND;
+
+        if (object)
+        {
+            color = object->color()->getColor(point);
+            Point illumitation = { 0.0, 0.0, 0.0 };
+            Point pointBiased = point + object->normal(point) * 1e-5;
+            Point normal = object->normal(point);
+            for (auto light = m_lights.begin(); light != m_lights.end(); light++)
+            {
+                Point p;
+                bool shaded = getRayIntersection((*light)->getLightRay(pointBiased), p) != nullptr;
+                illumitation = illumitation + (*light)->getIllumination(pointBiased, normal, *object, shaded);
+            }
+            illumitation.clamp(0.0, 1.0);
+            color = { color.x * illumitation.x, color.y * illumitation.y, color.z * illumitation.z };
+
+            if (object->reflection() && traceDepth)
+            {
+                Ray reflectedRay = ray.reflect(pointBiased, normal);
+                Point newPoint;
+                Node* newObject = getRayIntersection(reflectedRay, newPoint);
+                color = color * (1 - object->reflection()) + getIntersectionColor(newObject, reflectedRay, newPoint, traceDepth - 1) * object->reflection();
+            }
+        }
+
         return color;
     }
 

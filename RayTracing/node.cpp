@@ -27,12 +27,18 @@ namespace RayTracing
         m_world = t * r * s;
         
         YAML::Node material = node["material"];
-        m_KDiffuse = 0.3;
+        m_kAmbient = 0.3;
+        if (material["ambient"])
+            m_kAmbient = material["ambient"].as<double>();
+        m_kDiffuse = 0.3;
         if (material["diffuse"])
-            m_KDiffuse = material["diffuse"].as<double>();
-        m_KSpecular = 0.5;
+            m_kDiffuse = material["diffuse"].as<double>();
+        m_kSpecular = 0.5;
         if (material["specular"])
-            m_KSpecular = material["specular"].as<double>();
+            m_kSpecular = material["specular"].as<double>();
+        m_reflection = 0.0;
+        if (material["reflection"])
+            m_reflection = material["reflection"].as<double>();
     }
 
 }

@@ -17,7 +17,7 @@ namespace RayTracing
         Light() {}
         Light(const YAML::Node& light, const Point& camera);
         Ray getLightRay(const Point& point) const;
-        Point getIllumination(const Point& point, const Point& normal, const Node& object) const;
+        Point getIllumination(const Point& point, const Point& normal, const Node& object, bool shaded) const;
 
     private:
         Point m_position, m_color, m_camera;

@@ -14,14 +14,17 @@ namespace RayTracing
 
     public:
         virtual void load(const YAML::Node& node);
+        Color* const & color() const { return m_color; }
         Color*& color() { return m_color; }
-        double kDiffuse() const { return m_KDiffuse; }
-        double kSpecular() const { return m_KSpecular; }
+        double kAmbient() const { return m_kAmbient; }
+        double kDiffuse() const { return m_kDiffuse; }
+        double kSpecular() const { return m_kSpecular; }
+        double reflection() const { return m_reflection; }
 
     protected:
         Matrix m_world;
         Color* m_color;
-        double m_KDiffuse, m_KSpecular;
+        double m_kAmbient, m_kDiffuse, m_kSpecular, m_reflection;
 
     };
 

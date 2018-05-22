@@ -44,7 +44,7 @@ int main(int argc, const char *argv[])
 
             RayTracing::Scene scene;
             scene.load(vm["scene"].as<std::string>(), ct, param);
-            RayTracing::Bitmap image = scene.render(vm["resolution_x"].as<int>(), vm["resolution_y"].as<int>());
+            RayTracing::Bitmap image = scene.render(vm["resolution_x"].as<int>(), vm["resolution_y"].as<int>(), vm["trace_depth"].as<int>());
             image.save(vm["output"].as<std::string>());
         }            
     /*}

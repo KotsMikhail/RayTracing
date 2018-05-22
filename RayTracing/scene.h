@@ -26,10 +26,11 @@ namespace RayTracing
 
     public:
         void load(const std::string& path, ColorType ctype, const boost::any& param);
-        Bitmap render(int resolutionX, int resolutionY) const;
+        Bitmap render(int resolutionX, int resolutionY, int traceDepth) const;
 
     private:
-        Point getRayIntersection(const Ray& ray) const;
+        Node* getRayIntersection(const Ray& ray, Point& point) const;
+        Point getIntersectionColor(const Node* object, const Ray& ray, const Point& point, int traceDepth) const;
         Node* getObject(const YAML::Node& node, ColorType ctype, const boost::any& param = nullptr) const;
 
         std::vector<Node*> m_objects;
